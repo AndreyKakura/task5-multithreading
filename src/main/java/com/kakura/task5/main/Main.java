@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -23,7 +24,14 @@ public class Main {
         List<String> stringList = reader.read("src/main/resources/data/ships.txt");
         List<Ship> ships = parser.parse(stringList);
 
-        ExecutorService executorService = Executors.newFixedThreadPool(ships.size());
+        ThreadFactory threadFactory = new ThreadFactory() {
+            private int counter;
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, "Ship " + counter++);
+            }
+        };
+        ExecutorService executorService = Executors.newFixedThreadPool(ships.size(), threadFactory);
         ships.forEach(executorService::execute);
         try {
             TimeUnit.SECONDS.sleep(1);

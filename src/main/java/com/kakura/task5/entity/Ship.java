@@ -21,7 +21,6 @@ public class Ship extends Thread {
         shipId = ShipIdGenerator.generateId();
         shipState = ShipState.NEW;
         this.purpose = purpose;
-
     }
 
     @Override
