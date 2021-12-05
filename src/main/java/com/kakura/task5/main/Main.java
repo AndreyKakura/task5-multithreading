@@ -26,6 +26,7 @@ public class Main {
 
         ThreadFactory threadFactory = new ThreadFactory() {
             private int counter;
+
             @Override
             public Thread newThread(Runnable r) {
                 return new Thread(r, "Ship " + counter++);
