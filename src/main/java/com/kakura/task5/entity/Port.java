@@ -49,7 +49,7 @@ public class Port {
         lock.lock();
         Pier pier = null;
         try {
-            while(piers.isEmpty()) {
+            while (piers.isEmpty()) {
                 condition.await();
             }
             pier = piers.poll();
@@ -57,8 +57,7 @@ public class Port {
         } catch (InterruptedException e) {
             logger.error("Interrupted exception on " + Thread.currentThread().getName());
             Thread.currentThread().interrupt();
-        }
-        finally {
+        } finally {
             lock.unlock();
         }
         return pier;
